@@ -15,7 +15,7 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Auth } from '../../core/services/auth/auth';
+import { Auth } from '../../../../core/services/auth/auth';
 @Component({
   selector: 'app-navbar',
   imports: [FaIconComponent],

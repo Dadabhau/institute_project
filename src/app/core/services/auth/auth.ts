@@ -2,10 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-
-interface LoginResponse {
-  token: string;
-}
+import { environment } from '../../../../environments/environment';
+import { API_ENDPOINTS } from '../../constants/api.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +11,9 @@ interface LoginResponse {
 export class Auth {
   constructor(private http: HttpClient, private router: Router) {}
 
-  private apiUrl = 'https://feestracking.freeprojectapi.com/api/User/login';
-
   login(cred: any) {
     return this.http
-      .post<LoginResponse>(this.apiUrl, cred)
+      .post<LoginResponse>(`${environment.API_URL}${API_ENDPOINTS.USER.LOGIN}`, cred)
       .pipe(tap((res) => sessionStorage.setItem('token', res.token)));
   }
 

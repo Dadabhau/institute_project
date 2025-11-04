@@ -2,19 +2,29 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Auth } from '../../core/services/auth/auth';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, FaIconComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  fieldTextType: boolean = false;
   user = {
     userName: '',
     password: '',
   };
   errors: any = '';
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
 
   constructor(private auth: Auth, private router: Router) {}
 
@@ -24,7 +34,7 @@ export class Login {
 
       this.auth.login(this.user).subscribe({
         next: (res) => {
-          // debugger;
+          debugger;
           console.log('Login successful', res);
           this.router.navigate(['/dashboard']);
         },

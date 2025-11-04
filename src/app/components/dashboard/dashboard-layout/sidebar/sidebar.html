@@ -8,16 +8,16 @@
       <li class="sidebar-header">Pages</li>
 
       <li class="sidebar-item active">
-        <a class="sidebar-link" href="index.html">
+        <a class="sidebar-link" [routerLink]="'/dashboard'" routerLinkActive="active">
           <fa-icon [icon]="faSliders"></fa-icon>
           <span class="align-middle">Dashboard</span>
         </a>
       </li>
 
       <li class="sidebar-item">
-        <a class="sidebar-link" href="pages-profile.html">
+        <a class="sidebar-link" [routerLink]="'master'" routerLinkActive="active">
           <fa-icon [icon]="faUser"></fa-icon>
-          <span class="align-middle">Profile</span>
+          <span class="align-middle">Master</span>
         </a>
       </li>
 

@@ -1,0 +1,106 @@
+<div class="container-fluid p-0">
+  <h1 class="h3 mb-3"><strong>Master</strong> Data</h1>
+
+  <div class="row align-items-start">
+    <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+      <div class="card flex-fill">
+        <div class="card-header">
+          <h5 class="card-title mb-0">All Masters</h5>
+        </div>
+        <table class="table table-hover my-0">
+          <thead>
+            <tr>
+              <th>Master Id</th>
+              <th class="d-none d-xl-table-cell">Master For</th>
+              <th class="d-none d-xl-table-cell">Master Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let master of mastersData; trackBy: trackById" class="tooltip-container">
+              <td>{{ master.masterId }}</td>
+              <td class="d-none d-xl-table-cell">{{ master.masterFor }}</td>
+              <td>
+                <app-payment-icon [value]="master.masterValue"></app-payment-icon>
+                {{ master.masterValue }}
+              </td>
+              <!-- Custom Tooltip -->
+              <span class="custom-tooltip">
+                {{ getTooltipText(master.masterValue) }}
+              </span>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xxl-3 d-flex">
+      <div class="card flex-fill w-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Add Master</h5>
+        </div>
+        <div class="card-body d-flex w-100">
+          <form #masterForm="ngForm" (ngSubmit)="addMaster(masterForm)" novalidate>
+            <div class="mb-3">
+              <label class="form-label">Master For</label>
+              <input
+                class="form-control form-control-lg"
+                required
+                [(ngModel)]="newMaster.masterFor"
+                name="masterFor"
+                [ngClass]="{
+                  'is-invalid':
+                    masterForm.controls['masterFor']?.invalid &&
+                    (masterForm.controls['masterFor']?.dirty ||
+                      masterForm.controls['masterFor']?.touched)
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  masterForm.controls['masterFor']?.invalid &&
+                  (masterForm.controls['masterFor']?.dirty ||
+                    masterForm.controls['masterFor']?.touched)
+                "
+              >
+                <div *ngIf="masterForm.controls['masterFor']?.errors?.['required']">
+                  Add Master For
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Master Value</label>
+              <input
+                class="form-control form-control-lg"
+                required
+                [(ngModel)]="newMaster.masterValue"
+                name="masterValue"
+                [ngClass]="{
+                  'is-invalid':
+                    masterForm.controls['masterValue']?.invalid &&
+                    (masterForm.controls['masterValue']?.dirty ||
+                      masterForm.controls['masterValue']?.touched)
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  masterForm.controls['masterValue']?.invalid &&
+                  (masterForm.controls['masterValue']?.dirty ||
+                    masterForm.controls['masterValue']?.touched)
+                "
+              >
+                Add Master Value
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-3">
+              <button type="submit" [disabled]="!masterForm.valid" class="btn btn-lg btn-primary">
+                Add Master <app-loading *ngIf="loading"></app-loading>
+              </button>
+            </div>
+            <div class="text-danger error-msg">{{ error }}</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
