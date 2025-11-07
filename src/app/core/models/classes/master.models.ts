@@ -10,7 +10,7 @@ export interface MasterResponse {
   data: MasterInterface[];
 }
 
-// Class (optional, if you need methods or instances)
-export class MasterModel implements MasterInterface {
-  constructor(public masterId: number, public masterFor: string, public masterValue: string) {}
-}
+// // Class (optional, if you need methods or instances)
+// export class MasterModel implements MasterInterface {
+//   constructor(public masterId: number, public masterFor: string, public masterValue: string) {}
+// }

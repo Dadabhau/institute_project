@@ -1,0 +1,23 @@
+<div
+  class="toast-container position-fixed translate-middle-x bottom-0 start-50 p-3"
+  style="z-index: 1055"
+>
+  <div
+    *ngFor="let toast of toastService.toasts$ | async"
+    class="toast show mb-2 fade"
+    [ngClass]="getToastClass(toast.type)"
+    role="alert"
+  >
+    <div class="d-flex align-items-center justify-content-between pe-2">
+      <div class="toast-body">
+        {{ toast.message }}
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white ms-2 mb-1"
+        aria-label="Close"
+        (click)="removeToast(toast.id!)"
+      ></button>
+    </div>
+  </div>
+</div>

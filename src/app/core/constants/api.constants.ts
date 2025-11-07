@@ -16,4 +16,18 @@ export const API_ENDPOINTS = {
     UPDATE_MASTER: '/Master/update-master',
     DELETE_MASTER: '/Master/delete-master',
   },
+  PACKAGES: {
+    GET_ALL_PACKAGES: '/PackageMaster/get-all-packages',
+    CREATE_NEW_PACKAGE: '/PackageMaster/create-package',
+    GET_PACKAGE_BY_ID: '/PackageMaster/get-package-by-id',
+    UPDATE_PACKAGE: '/PackageMaster/update-package',
+    DELETE_PACKAGE: '/PackageMaster/delete-package',
+  },
+  INSTITUTE: {
+    GET_ALL_INSTITUTES: '/InstituteMaster/get-all-institutes',
+    CREATE_NEW_INSTITUTE: '/InstituteMaster/create-institute',
+    GET_INSTITUTE_BY_ID: '/InstituteMaster/get-institute-by-id',
+    UPDATE_INSTITUTE: '/InstituteMaster/update-institute',
+    DELETE_INSTITUTE: '/InstituteMaster/delete-institute',
+  },
 };

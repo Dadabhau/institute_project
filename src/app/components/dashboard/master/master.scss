@@ -42,7 +42,13 @@
   transform: translateX(-50%) translateY(-5px);
 }
 
-.error-msg {
+.error-msg,
+.success-msg {
   margin-top: 10px;
   font-size: 12px;
+}
+
+.fixposition {
+  position: sticky;
+  top: 20px;
 }

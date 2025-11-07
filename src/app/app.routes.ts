@@ -5,6 +5,8 @@ import { MainLayouts } from './features/layouts/main-layouts/main-layouts';
 import { DashboardLayout } from './components/dashboard/dashboard-layout/dashboard-layout';
 import { Master } from './components/dashboard/master/master';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
+import { Packages } from './components/dashboard/packages/packages';
+import { Institutes } from './components/dashboard/Institutes/institutes';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -23,6 +25,8 @@ export const routes: Routes = [
         children: [
           { path: '', component: Dashboard },
           { path: 'master', component: Master },
+          { path: 'packages', component: Packages },
+          { path: 'institutes', component: Institutes },
         ],
       },
     ],

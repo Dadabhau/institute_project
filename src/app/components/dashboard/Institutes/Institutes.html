@@ -1,0 +1,232 @@
+<div class="container-fluid p-0">
+  <h1 class="h3 mb-3"><strong>Institutes</strong> Management</h1>
+
+  <div class="row align-items-start">
+    <div class="col-12 d-flex">
+      <div class="card flex-fill">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">All Institutes</h5>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary" (click)="openAddModal()">
+              <fa-icon [icon]="faPlus"></fa-icon> Add New
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-xl-12 col-xxl-12 d-flex">
+      <div class="w-100">
+        <div class="row">
+          <div class="col-sm-3" *ngFor="let institute of institutes">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">{{ isEditing ? 'Edit Institute' : institute.name }}</h5>
+                  </div>
+                </div>
+                <div *ngIf="!isEditing" class="row">
+                  <div class="col-md-12">
+                    <p><strong>Owner:</strong> {{ institute.ownerName }}</p>
+                    <p><strong>Contact:</strong> {{ institute.conatctNo }}</p>
+                    <p><strong>Email:</strong> {{ institute.emailId }}</p>
+                    <p><strong>GST No:</strong> {{ institute.gstNo }}</p>
+                  </div>
+
+                  <div class="col-md-12">
+                    <p><strong>City:</strong> {{ institute.city }}</p>
+                    <p><strong>State:</strong> {{ institute.state }}</p>
+                    <p><strong>Pincode:</strong> {{ institute.pincode }}</p>
+                    <p><strong>Location:</strong> {{ institute.location }}</p>
+                  </div>
+                </div>
+
+                <p class="text-muted small mt-2">
+                  Created: {{ institute.createdDate | date : 'medium' }}
+                </p>
+                <div class="mb-0">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(institute)">
+                    {{ !isEditing ? 'Edit' : 'Save' }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary me-2"
+                    *ngIf="isEditing"
+                    (click)="onCancel()"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="onDelete(institute.instituteId)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal"
+  tabindex="-1"
+  *ngIf="showAddModal"
+  style="display: block; background: rgba(0, 0, 0, 0.7)"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form [formGroup]="instituteForm" (ngSubmit)="onSubmit()">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEditing ? 'Edit Institute' : 'Add Institute' }}</h5>
+          <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                [ngClass]="{ 'is-invalid': f['name'].touched && f['name'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['name'].touched && f['name'].invalid"
+              >
+                Name is required
+              </div>
+
+              <label class="form-label mt-2">Owner</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ownerName"
+                [ngClass]="{ 'is-invalid': f['ownerName'].touched && f['ownerName'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['ownerName'].touched && f['ownerName'].invalid"
+              >
+                Owner name required
+              </div>
+
+              <label class="form-label mt-2">Contact</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="conatctNo"
+                [ngClass]="{ 'is-invalid': f['conatctNo'].touched && f['conatctNo'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['conatctNo'].touched && f['conatctNo'].invalid"
+              >
+                Enter valid 10-digit number
+              </div>
+
+              <label class="form-label mt-2">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="emailId"
+                [ngClass]="{ 'is-invalid': f['emailId'].touched && f['emailId'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['emailId'].touched && f['emailId'].invalid"
+              >
+                Enter a valid email
+              </div>
+              <label class="form-label mt-2">City</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="city"
+                [ngClass]="{ 'is-invalid': f['city'].touched && f['city'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['city'].touched && f['city'].invalid"
+              >
+                City is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">State</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="state"
+                [ngClass]="{ 'is-invalid': f['state'].touched && f['state'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['state'].touched && f['state'].invalid"
+              >
+                State is required
+              </div>
+              <label class="form-label mt-2">Pincode</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="pincode"
+                [ngClass]="{ 'is-invalid': f['pincode'].touched && f['pincode'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['pincode'].touched && f['pincode'].invalid"
+              >
+                Enter valid 6-digit pincode
+              </div>
+
+              <label class="form-label mt-2">Location</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="location"
+                [ngClass]="{ 'is-invalid': f['location'].touched && f['location'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['location'].touched && f['location'].invalid"
+              >
+                Location is required
+              </div>
+              <label class="form-label mt-2">GST No</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="gstNo"
+                [ngClass]="{ 'is-invalid': f['gstNo'].touched && f['gstNo'].invalid }"
+              />
+              <div
+                class="invalid-feedback form-text"
+                *ngIf="f['gstNo'].touched && f['gstNo'].invalid"
+              >
+                Enter valid GST No
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="instituteForm.invalid">
+            {{ isEditing ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

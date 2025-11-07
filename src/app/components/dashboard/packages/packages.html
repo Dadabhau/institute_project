@@ -1,0 +1,330 @@
+<div class="container-fluid p-0">
+  <h1 class="h3 mb-3"><strong>Packages</strong> Management</h1>
+
+  <div class="row align-items-start">
+    <div class="col-12 d-flex">
+      <div class="card flex-fill">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">All Packages</h5>
+          <div class="d-flex gap-2">
+            <!-- <input
+              type="text"
+              placeholder="Filter by name"
+              class="form-control form-control-sm"
+              [(ngModel)]="filterText"
+              (input)="filterPackages()"
+            /> -->
+            <button class="btn btn-sm btn-primary" (click)="openAddModal()">
+              <fa-icon [icon]="faPlus"></fa-icon> Add New
+            </button>
+          </div>
+        </div>
+
+        <table class="table table-hover my-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>One-Time Cost</th>
+              <th>EMI Cost</th>
+              <th>Branches</th>
+              <th>Students</th>
+              <th>SMS Alert</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let pkg of filteredPackages; trackBy: trackById">
+              <!-- === MAIN DATA ROW === -->
+              <tr>
+                <td>{{ pkg.packageId }}</td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else nameView">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="editedPackage!.packageName"
+                    />
+                  </ng-container>
+                  <ng-template #nameView>{{ pkg.packageName }}</ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else costView">
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="editedPackage!.oneTimeTotalCost"
+                    />
+                  </ng-container>
+                  <ng-template #costView>{{ pkg.oneTimeTotalCost }}</ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else emiView">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="editedPackage!.emiTotalCost"
+                    />
+                  </ng-container>
+                  <ng-template #emiView>{{ pkg.emiTotalCost }}</ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else branchView">
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="editedPackage!.maxBranches"
+                    />
+                  </ng-container>
+                  <ng-template #branchView>{{ pkg.maxBranches }}</ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else studentView">
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="editedPackage!.maxStudents"
+                    />
+                  </ng-container>
+                  <ng-template #studentView>{{ pkg.maxStudents }}</ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else smsView">
+                    <input type="checkbox" [(ngModel)]="editedPackage!.isSmsAlert" />
+                  </ng-container>
+                  <ng-template #smsView>
+                    <span
+                      [class.text-success]="pkg.isSmsAlert"
+                      [class.text-danger]="!pkg.isSmsAlert"
+                    >
+                      {{ pkg.isSmsAlert ? 'Yes' : 'No' }}
+                    </span>
+                  </ng-template>
+                </td>
+
+                <td>
+                  <ng-container *ngIf="editModeId === pkg.packageId; else actionBtns">
+                    <button
+                      class="btn btn-sm btn-success me-1"
+                      (click)="savePackage(pkg)"
+                      title="Save"
+                    >
+                      <fa-icon [icon]="faSave"></fa-icon>
+                    </button>
+                    <button class="btn btn-sm btn-secondary" (click)="cancelEdit()" title="Cancel">
+                      <fa-icon [icon]="faTimes"></fa-icon>
+                    </button>
+                  </ng-container>
+
+                  <ng-template #actionBtns>
+                    <button
+                      class="btn btn-sm btn-outline-primary me-1"
+                      (click)="startEdit(pkg)"
+                      title="Edit"
+                    >
+                      <fa-icon [icon]="faEdit"></fa-icon>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="deletePackage(pkg.packageId)"
+                      title="Delete"
+                    >
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                  </ng-template>
+                </td>
+              </tr>
+              <tr *ngIf="activeMessage?.id === pkg.packageId">
+                <td colspan="8" class="text-center py-2">
+                  <span *ngIf="activeMessage?.type === 'loading'" class="text-muted">
+                    Saving...
+                  </span>
+                  <span *ngIf="activeMessage?.type === 'success'" class="text-success">
+                    {{ activeMessage?.text }}
+                  </span>
+                  <span *ngIf="activeMessage?.type === 'error'" class="text-danger">
+                    {{ activeMessage?.text }}
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+
+        <div *ngIf="loading && !filteredPackages.length" class="text-center my-3">Loading...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- === Add Package Modal === -->
+<div
+  class="modal fade show"
+  tabindex="-1"
+  *ngIf="showAddModal"
+  style="display: block; background: rgba(0, 0, 0, 0.5)"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Package</h5>
+        <button type="button" class="btn-close" (click)="closeAddModal()"></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <form #newPackageForm="ngForm" (ngSubmit)="saveNewPackage(newPackageForm)">
+          <div class="mb-2">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="addNewPackage.packageName"
+              required
+              #packageName="ngModel"
+              name="packageName"
+              [ngClass]="{
+                'is-invalid': packageName.invalid && (packageName.dirty || packageName.touched)
+              }"
+            />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="
+                newPackageForm.controls['packageName'].invalid &&
+                (newPackageForm.controls['packageName'].dirty ||
+                  newPackageForm.controls['packageName'].touched)
+              "
+            >
+              <div *ngIf="newPackageForm.controls['packageName'].errors?.['required']">
+                Name is required.
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">One-Time Cost</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="addNewPackage.oneTimeTotalCost"
+              #oneTimeTotalCost="ngModel"
+              name="oneTimeTotalCost"
+              [ngClass]="{
+                'is-invalid':
+                  oneTimeTotalCost.invalid && (oneTimeTotalCost.dirty || oneTimeTotalCost.touched)
+              }"
+            />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="
+                newPackageForm.controls['oneTimeTotalCost'].invalid &&
+                (newPackageForm.controls['oneTimeTotalCost'].dirty ||
+                  newPackageForm.controls['oneTimeTotalCost'].touched)
+              "
+            >
+              <div *ngIf="newPackageForm.controls['oneTimeTotalCost'].errors?.['required']">
+                One-Time Cost is required.
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">EMI Cost</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="addNewPackage.emiTotalCost"
+              #emiTotalCost="ngModel"
+              name="emiTotalCost"
+              [ngClass]="{
+                'is-invalid': emiTotalCost.invalid && (emiTotalCost.dirty || emiTotalCost.touched)
+              }"
+            />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="
+                newPackageForm.controls['emiTotalCost'].invalid &&
+                (newPackageForm.controls['emiTotalCost'].dirty ||
+                  newPackageForm.controls['emiTotalCost'].touched)
+              "
+            >
+              <div *ngIf="newPackageForm.controls['emiTotalCost'].errors?.['required']">
+                EMI Cost is required.
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Max Branches</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="addNewPackage.maxBranches"
+              #maxBranches="ngModel"
+              name="maxBranches"
+              [ngClass]="{
+                'is-invalid': maxBranches.invalid && (maxBranches.dirty || maxBranches.touched)
+              }"
+            />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="
+                newPackageForm.controls['maxBranches'].invalid &&
+                (newPackageForm.controls['maxBranches'].dirty ||
+                  newPackageForm.controls['maxBranches'].touched)
+              "
+            >
+              <div *ngIf="newPackageForm.controls['maxBranches'].errors?.['required']">
+                Max Branches is required.
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Max Students</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="addNewPackage.maxStudents"
+              #maxStudents="ngModel"
+              name="maxStudents"
+              [ngClass]="{
+                'is-invalid': maxStudents.invalid && (maxStudents.dirty || maxStudents.touched)
+              }"
+            />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="
+                newPackageForm.controls['maxStudents'].invalid &&
+                (newPackageForm.controls['maxStudents'].dirty ||
+                  newPackageForm.controls['maxStudents'].touched)
+              "
+            >
+              <div *ngIf="newPackageForm.controls['maxStudents'].errors?.['required']">
+                Name is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [(ngModel)]="addNewPackage.isSmsAlert"
+              name="isSmsAlert"
+            />
+            <label class="form-check-label">SMS Alert</label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeAddModal()">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!newPackageForm">Save</button>
+      </div>
+      <p *ngIf="error" class="text-danger">{{ error }}</p>
+      <p *ngIf="success" class="text-success">{{ success }}</p>
+    </div>
+  </div>
+</div>
