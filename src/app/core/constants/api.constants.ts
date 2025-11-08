@@ -30,4 +30,11 @@ export const API_ENDPOINTS = {
     UPDATE_INSTITUTE: '/InstituteMaster/update-institute',
     DELETE_INSTITUTE: '/InstituteMaster/delete-institute',
   },
+  INSTITUTE_BRANCHES: {
+    GET_ALL_BRANCHES: '/BranchMaster/get-all-branches',
+    CREATE_NEW_BRANCH: '/BranchMaster/create-branch',
+    GET_BRANCH_BY_ID: '/BranchMaster/get-branch-by-id',
+    UPDATE_BRANCH: '/BranchMaster/update-branch',
+    DELETE_BRANCH: '/BranchMaster/delete-branch',
+  },
 };

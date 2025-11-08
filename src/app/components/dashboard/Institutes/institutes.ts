@@ -11,7 +11,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { InstituteServices } from '../../../core/services/Institute/Institute.services';
 import { Institute, InstituteResponse } from '../../../core/models/interfaces/institute.interface';
 import { CommonModule } from '@angular/common';
-import { min, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
@@ -45,7 +45,6 @@ export class Institutes implements OnInit, OnDestroy {
   isEditing: boolean = false;
 
   showAddModal = false;
-  currentDate = new Date().toISOString();
 
   getInstitutesList!: Subscription;
   constructor(

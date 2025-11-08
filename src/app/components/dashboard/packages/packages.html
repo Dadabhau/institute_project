@@ -179,57 +179,34 @@
       </div>
 
       <div class="modal-body p-4">
-        <form #newPackageForm="ngForm" (ngSubmit)="saveNewPackage(newPackageForm)">
+        <form [formGroup]="packageForm" (ngSubmit)="onSubmit()">
           <div class="mb-2">
             <label class="form-label">Name</label>
             <input
               type="text"
               class="form-control"
-              [(ngModel)]="addNewPackage.packageName"
-              required
-              #packageName="ngModel"
-              name="packageName"
-              [ngClass]="{
-                'is-invalid': packageName.invalid && (packageName.dirty || packageName.touched)
-              }"
+              formControlName="packageName"
+              [ngClass]="{ 'is-invalid': f['packageName'].touched && f['packageName'].invalid }"
             />
-            <div
-              class="invalid-feedback form-text"
-              *ngIf="
-                newPackageForm.controls['packageName'].invalid &&
-                (newPackageForm.controls['packageName'].dirty ||
-                  newPackageForm.controls['packageName'].touched)
-              "
-            >
-              <div *ngIf="newPackageForm.controls['packageName'].errors?.['required']">
-                Name is required.
-              </div>
-            </div>
+            @if (f['packageName'].touched && f['packageName'].invalid) {
+            <div class="invalid-feedback form-text">Package Name is required</div>
+            }
           </div>
           <div class="mb-2">
             <label class="form-label">One-Time Cost</label>
             <input
               type="number"
               class="form-control"
-              [(ngModel)]="addNewPackage.oneTimeTotalCost"
-              #oneTimeTotalCost="ngModel"
-              name="oneTimeTotalCost"
+              formControlName="oneTimeTotalCost"
               [ngClass]="{
-                'is-invalid':
-                  oneTimeTotalCost.invalid && (oneTimeTotalCost.dirty || oneTimeTotalCost.touched)
+                'is-invalid': f['oneTimeTotalCost'].touched && f['oneTimeTotalCost'].invalid
               }"
             />
             <div
               class="invalid-feedback form-text"
-              *ngIf="
-                newPackageForm.controls['oneTimeTotalCost'].invalid &&
-                (newPackageForm.controls['oneTimeTotalCost'].dirty ||
-                  newPackageForm.controls['oneTimeTotalCost'].touched)
-              "
+              *ngIf="f['oneTimeTotalCost'].touched && f['oneTimeTotalCost'].invalid"
             >
-              <div *ngIf="newPackageForm.controls['oneTimeTotalCost'].errors?.['required']">
-                One-Time Cost is required.
-              </div>
+              One-Time Cost is required.
             </div>
           </div>
           <div class="mb-2">
@@ -237,24 +214,15 @@
             <input
               type="text"
               class="form-control"
-              [(ngModel)]="addNewPackage.emiTotalCost"
-              #emiTotalCost="ngModel"
               name="emiTotalCost"
-              [ngClass]="{
-                'is-invalid': emiTotalCost.invalid && (emiTotalCost.dirty || emiTotalCost.touched)
-              }"
+              formControlName="emiTotalCost"
+              [ngClass]="{ 'is-invalid': f['emiTotalCost'].touched && f['emiTotalCost'].invalid }"
             />
             <div
               class="invalid-feedback form-text"
-              *ngIf="
-                newPackageForm.controls['emiTotalCost'].invalid &&
-                (newPackageForm.controls['emiTotalCost'].dirty ||
-                  newPackageForm.controls['emiTotalCost'].touched)
-              "
+              *ngIf="f['emiTotalCost'].touched && f['emiTotalCost'].invalid"
             >
-              <div *ngIf="newPackageForm.controls['emiTotalCost'].errors?.['required']">
-                EMI Cost is required.
-              </div>
+              EMI Cost is required.
             </div>
           </div>
           <div class="mb-2">
@@ -262,24 +230,15 @@
             <input
               type="number"
               class="form-control"
-              [(ngModel)]="addNewPackage.maxBranches"
-              #maxBranches="ngModel"
               name="maxBranches"
-              [ngClass]="{
-                'is-invalid': maxBranches.invalid && (maxBranches.dirty || maxBranches.touched)
-              }"
+              formControlName="maxBranches"
+              [ngClass]="{ 'is-invalid': f['maxBranches'].touched && f['maxBranches'].invalid }"
             />
             <div
               class="invalid-feedback form-text"
-              *ngIf="
-                newPackageForm.controls['maxBranches'].invalid &&
-                (newPackageForm.controls['maxBranches'].dirty ||
-                  newPackageForm.controls['maxBranches'].touched)
-              "
+              *ngIf="f['maxBranches'].touched && f['maxBranches'].invalid"
             >
-              <div *ngIf="newPackageForm.controls['maxBranches'].errors?.['required']">
-                Max Branches is required.
-              </div>
+              Max Branches is required.
             </div>
           </div>
           <div class="mb-2">
@@ -287,24 +246,15 @@
             <input
               type="number"
               class="form-control"
-              [(ngModel)]="addNewPackage.maxStudents"
-              #maxStudents="ngModel"
               name="maxStudents"
-              [ngClass]="{
-                'is-invalid': maxStudents.invalid && (maxStudents.dirty || maxStudents.touched)
-              }"
+              formControlName="maxStudents"
+              [ngClass]="{ 'is-invalid': f['maxStudents'].touched && f['maxStudents'].invalid }"
             />
             <div
               class="invalid-feedback form-text"
-              *ngIf="
-                newPackageForm.controls['maxStudents'].invalid &&
-                (newPackageForm.controls['maxStudents'].dirty ||
-                  newPackageForm.controls['maxStudents'].touched)
-              "
+              *ngIf="f['maxStudents'].touched && f['maxStudents'].invalid"
             >
-              <div *ngIf="newPackageForm.controls['maxStudents'].errors?.['required']">
-                Name is required.
-              </div>
+              Name is required.
             </div>
           </div>
           <div class="form-check">
@@ -313,7 +263,15 @@
               type="checkbox"
               [(ngModel)]="addNewPackage.isSmsAlert"
               name="isSmsAlert"
+              formControlName="isSmsAlert"
+              [ngClass]="{ 'is-invalid': f['isSmsAlert'].touched && f['isSmsAlert'].invalid }"
             />
+            <div
+              class="invalid-feedback form-text"
+              *ngIf="f['isSmsAlert'].touched && f['isSmsAlert'].invalid"
+            >
+              SMS Alert is required
+            </div>
             <label class="form-check-label">SMS Alert</label>
           </div>
         </form>
@@ -321,7 +279,7 @@
 
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="closeAddModal()">Cancel</button>
-        <button class="btn btn-primary" type="submit" [disabled]="!newPackageForm">Save</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!packageForm">Save</button>
       </div>
       <p *ngIf="error" class="text-danger">{{ error }}</p>
       <p *ngIf="success" class="text-success">{{ success }}</p>

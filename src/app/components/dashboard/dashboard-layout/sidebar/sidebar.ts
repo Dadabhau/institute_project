@@ -13,6 +13,7 @@ import {
   faThLarge,
   faBox,
   faUniversity,
+  faCodeBranch,
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
@@ -37,4 +38,5 @@ export class Sidebar {
   faMap = faMap;
   faBox = faBox;
   faUniversity = faUniversity;
+  faCodeBranch = faCodeBranch;
 }

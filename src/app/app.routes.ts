@@ -7,6 +7,7 @@ import { Master } from './components/dashboard/master/master';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
 import { Packages } from './components/dashboard/packages/packages';
 import { Institutes } from './components/dashboard/Institutes/institutes';
+import { InstituteBranches } from './components/dashboard/institute-branch/institute-branch';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
           { path: 'master', component: Master },
           { path: 'packages', component: Packages },
           { path: 'institutes', component: Institutes },
+          { path: 'institute-branches', component: InstituteBranches },
         ],
       },
     ],

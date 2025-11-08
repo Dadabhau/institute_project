@@ -3,12 +3,19 @@ import { faEdit, faTrash, faSave, faTimes, faPlus } from '@fortawesome/free-soli
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { PackagesService } from '../../../core/services/packages/packages.service';
 import { Package } from '../../../core/models/interfaces/packages.interface';
-import { FormsModule, NgForm } from '@angular/forms';
+import {
+  FormsModule,
+  NgForm,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-packages',
-  imports: [FormsModule, NgIf, FaIconComponent, NgFor, NgClass],
+  imports: [FormsModule, NgIf, FaIconComponent, NgFor, NgClass, ReactiveFormsModule],
   templateUrl: './packages.html',
   styleUrls: ['./packages.scss'],
 })
@@ -16,6 +23,8 @@ export class Packages implements OnInit {
   packages: Package[] = [];
   filteredPackages: Package[] = [];
   filterText: string = '';
+
+  packageForm!: FormGroup;
 
   loading = false;
   success = '';
@@ -45,7 +54,19 @@ export class Packages implements OnInit {
 
   activeMessage: { id: number; type: 'loading' | 'success' | 'error'; text: string } | null = null;
 
-  constructor(private packagesService: PackagesService) {}
+  constructor(private fb: FormBuilder, private packagesService: PackagesService) {}
+
+  initForm() {
+    this.packageForm = this.fb.group({
+      packageId: [0],
+      packageName: ['', Validators.required],
+      oneTimeTotalCost: [0, Validators.required],
+      emiTotalCost: ['', Validators.required],
+      maxBranches: [0, Validators.required],
+      maxStudents: [0, Validators.required],
+      isSmsAlert: [false, Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.loadPackages();
@@ -77,6 +98,8 @@ export class Packages implements OnInit {
       },
     });
   }
+
+  onSubmit() {}
 
   filterPackages(): void {
     const text = this.filterText.toLowerCase();
@@ -179,5 +202,9 @@ export class Packages implements OnInit {
 
   trackById(index: number, item: Package): number {
     return item.packageId;
+  }
+
+  get f() {
+    return this.packageForm.controls;
   }
 }
