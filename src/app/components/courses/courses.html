@@ -1,0 +1,99 @@
+<div class="container-fluid p-0">
+  <div class="row align-items-start mb-4">
+    <div class="col-12 d-flex">
+      <div class="flex-fill">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="h3 mb-0"><strong>Institutes Courses</strong> Management</h1>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary">
+              <fa-icon [icon]="faPlus"></fa-icon> Add New
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-xl-12 col-xxl-12 d-flex">
+      <div class="w-100">
+        <div class="row">
+          @for(course of courses; track course.courseId){
+          <div class="col-sm-4 mb-4">
+            <div class="yoodli-card">
+              <div class="yoodli-header">
+                <div class="left">
+                  <fa-icon [icon]="faBuildingColumns"></fa-icon>
+                  <span>{{ course.instituteId }}</span>
+                </div>
+                <button class="btn btn-link btn-dot">
+                  <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                </button>
+              </div>
+
+              <h5 class="mb-2">
+                <fa-icon [icon]="faGraduationCap"></fa-icon> {{ course.courseName }}
+              </h5>
+              <p class="desc mb-2">{{ course.courseDescription }}</p>
+              <p class="duration mb-2">
+                Duration: <fa-icon [icon]="faCalendarDays"></fa-icon> {{ course.duration }}
+              </p>
+              <p class="price mb-2">
+                Price: <fa-icon [icon]="faIndianRupeeSign"></fa-icon>{{ course.courseCost }}
+              </p>
+              <div class="date-created mb-3">
+                Created Date: <fa-icon [icon]="faClock"></fa-icon> {{ course.creratedDate | date }}
+              </div>
+
+              <!-- <button class="btn btn-practice" (click)="onEdit(course)">Edit</button> -->
+              @if(course.isActive === true){
+              <span class="badge rounded-pill bg-primary p-2">Active</span>
+              }@else {
+              <span class="badge rounded-pill bg-danger p-2">Deactive</span>
+              } @if(course.isActive === true){
+              <div class="avatar avatar-active">
+                <fa-icon [icon]="faTachographDigital"></fa-icon>
+              </div>
+              }@else {
+              <div class="avatar avatar-deactive">
+                <fa-icon [icon]="faTachographDigital" class="courese-icon"></fa-icon>
+              </div>
+              }
+            </div>
+            <!-- <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">
+
+                    </h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Institute Name:</strong>{{ course.instituteId }}</p>
+                    <p><strong>Course Price:</strong>{{ course.courseCost }}</p>
+                    <p><strong>Course Active:</strong> {{ course.isActive }}</p>
+                    <p><strong>Course Duration:</strong> {{ course.duration }}</p>
+                    <p><strong>Course Date:</strong>{{ course.creratedDate }}</p>
+                    <p><strong>Location:</strong> {{ course.courseDescription }}</p>
+                  </div>
+                </div>
+                <div class="mb-0">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(course)">
+                    Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="onDelete(course.courseId)">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div> -->
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

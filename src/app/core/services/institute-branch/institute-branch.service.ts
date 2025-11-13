@@ -9,7 +9,7 @@ import { API_ENDPOINTS } from '../../constants/api.constants';
   providedIn: 'root',
 })
 export class InstituteBranchService {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
 
   getAllBranches(): Observable<BranchMaster[]> {
     return this.http.get<BranchMaster[]>(

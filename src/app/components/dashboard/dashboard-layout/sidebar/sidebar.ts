@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   faSliders,
   faBook,
@@ -14,9 +14,10 @@ import {
   faBox,
   faUniversity,
   faCodeBranch,
+  faNetworkWired,
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,4 +40,19 @@ export class Sidebar {
   faBox = faBox;
   faUniversity = faUniversity;
   faCodeBranch = faCodeBranch;
+
+  faNetworkWired = faNetworkWired;
+
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  id: string = '0';
+
+  constructor() {
+    // Listen to router events to get the current route parameters
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id') || '0';
+    });
+    console.log(this.id, 'COuresr form');
+  }
 }

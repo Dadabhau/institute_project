@@ -37,4 +37,12 @@ export const API_ENDPOINTS = {
     UPDATE_BRANCH: '/BranchMaster/update-branch',
     DELETE_BRANCH: '/BranchMaster/delete-branch',
   },
+  COURSES: {
+    GET_ALL_COURSES: '/Course/getAllCourses',
+    CREATE_NEW_COURSE: '/Course/createCourse',
+    GET_COURSE_BY_ID: '/Course/getCourseById',
+    UPDATE_COURSE: '/Course/updateCourse',
+    DELETE_COURSE: '/Course/deleteCourse',
+    GET_COURSE_BY_INSTITUTE: '/Course/getCoursesByInstitute',
+  },
 };

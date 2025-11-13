@@ -15,7 +15,7 @@ import {
   faQuestionCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Auth } from '../../../../core/services/auth/auth';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 @Component({
   selector: 'app-navbar',
   imports: [FaIconComponent],
@@ -37,8 +37,8 @@ export class Navbar {
   faEnvelope = faEnvelope;
   faQuestionCircle = faQuestionCircle;
 
-  constructor(private auth: Auth) {}
+  constructor(private authService: AuthService) {}
   logout() {
-    this.auth.logout();
+    this.authService.logout();
   }
 }

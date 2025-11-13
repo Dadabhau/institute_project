@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Auth } from '../../core/services/auth/auth';
+import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { LoginUser } from '../../core/models/interfaces/login.interface';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [FormsModule, CommonModule, FaIconComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -15,37 +17,42 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 export class Login {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-  fieldTextType: boolean = false;
-  user = {
-    userName: '',
-    password: '',
-  };
-  errors: any = '';
+  fieldTextType = false;
+  user: LoginUser = { userName: '', password: '' };
+  errors = '';
+  loading = signal(true);
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
 
-  constructor(private auth: Auth, private router: Router) {}
-
   login(form: NgForm) {
     if (form.valid) {
-      console.log('Form Submitted!', this.user);
-
-      this.auth.login(this.user).subscribe({
+      debugger;
+      this.authService.login(this.user).subscribe({
         next: (res) => {
-          debugger;
-          console.log('Login successful', res);
+          // After login redirect based on role
+          const role = res.data.role;
           this.router.navigate(['/dashboard']);
+
+          // both dashboards have same UI but could route differently if needed
+          // if (role === 'SuperAdmin') {
+          //   this.router.navigate(['/dashboard']);
+          // } else if (role === 'InstituteAdmin') {
+          //   this.router.navigate(['/dashboard']);
+          // } else {
+          //   this.router.navigate(['/dashboard']);
+          // }
         },
         error: (err) => {
-          console.error('Login failed', err);
-          this.errors = err.error.message || 'An error occurred during login.';
-          form.reset();
+          console.error('Login failed:', err);
+          this.errors = err.error?.message || 'Invalid credentials. Try again.';
+          form.resetForm();
         },
+        complete: () => this.loading.set(false),
       });
-    } else {
-      console.log('Form is invalid');
     }
   }
 }

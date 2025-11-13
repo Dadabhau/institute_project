@@ -9,7 +9,7 @@ import { InstituteResponse } from '../../models/interfaces/institute.interface';
   providedIn: 'root',
 })
 export class InstituteServices {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
 
   getAllInstitutes(): Observable<InstituteResponse> {
     return this.http.get<InstituteResponse>(
