@@ -21,6 +21,7 @@ import { ICourses } from '../../core/models/interfaces/courses.interface';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { InstituteServices } from '../../core/services/Institute/Institute.services';
+import { Institute, InstituteResponse } from '../../core/models/interfaces/institute.interface';
 
 @Component({
   selector: 'app-courses',
@@ -40,6 +41,7 @@ export class Courses implements OnInit, OnDestroy {
   faBuildingColumns = faBuildingColumns;
 
   courses: ICourses[] = [];
+  institutes: Institute[] = [];
 
   private coursesService = inject(CoursesService);
   private instituteService = inject(InstituteServices);
@@ -47,18 +49,14 @@ export class Courses implements OnInit, OnDestroy {
   private couresesSub = new Subscription();
 
   ngOnInit(): void {
-    this.getAllInstitute();
+    this.getAllInstitutes();
     this.getAllCoureses();
   }
 
-  getAllInstitute() {
+  getAllInstitutes() {
     this.instituteService.getAllInstitutes().subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (err) => {
-        console.log(err);
-      },
+      next: (res: InstituteResponse) => (this.institutes = res.data),
+      error: (err) => console.error('Error loading institutes', err),
     });
   }
 
@@ -74,8 +72,14 @@ export class Courses implements OnInit, OnDestroy {
     });
   }
 
+  getInstituteName(instituteId: number): string {
+    const institute = this.institutes.find((i) => i.instituteId === instituteId);
+    return institute ? institute.name : 'N/A';
+  }
+
   onEdit(courses: ICourses) {
-    this.router.navigate(['institute-courses', courses.courseId]);
+    this.router.navigate(['/institute-courses', courses.courseId]);
+    alert(courses.courseId);
   }
 
   onDelete(id: number) {}

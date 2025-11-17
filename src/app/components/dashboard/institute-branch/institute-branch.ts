@@ -134,6 +134,7 @@ export class InstituteBranches implements OnInit {
       });
     }
   }
+
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this institute?')) {
       debugger;

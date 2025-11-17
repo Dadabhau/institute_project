@@ -10,9 +10,11 @@ import { Packages } from './components/dashboard/packages/packages';
 import { Institutes } from './components/dashboard/Institutes/institutes';
 import { InstituteBranches } from './components/dashboard/institute-branch/institute-branch';
 import { Unauthorized } from './components/dashboard/unauthorized/unauthorized';
+import { Home } from './components/home/home';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', component: Home, title: 'Home Page' },
   {
     path: '',
     component: AuthLayouts,
